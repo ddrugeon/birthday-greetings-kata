@@ -1,7 +1,5 @@
 package it.xpug.kata.birthday_greetings.domain;
 
-import it.xpug.kata.birthday_greetings.XDate;
-
 import java.text.ParseException;
 
 public class Employee {
