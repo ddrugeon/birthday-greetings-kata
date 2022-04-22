@@ -1,5 +1,7 @@
 package it.xpug.kata.birthday_greetings;
 
+import it.xpug.kata.birthday_greetings.domain.Employee;
+import it.xpug.kata.birthday_greetings.domain.XDate;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
