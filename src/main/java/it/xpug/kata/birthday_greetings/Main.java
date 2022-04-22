@@ -1,10 +1,9 @@
 package it.xpug.kata.birthday_greetings;
 
-import java.io.*;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import java.io.IOException;
 import java.text.ParseException;
-
-import javax.mail.*;
-import javax.mail.internet.*;
 
 public class Main {
 
