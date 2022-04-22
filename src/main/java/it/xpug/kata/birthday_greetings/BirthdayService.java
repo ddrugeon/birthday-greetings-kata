@@ -1,5 +1,7 @@
 package it.xpug.kata.birthday_greetings;
 
+import it.xpug.kata.birthday_greetings.domain.Employee;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
