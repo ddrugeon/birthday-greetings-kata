@@ -1,7 +1,9 @@
 package it.xpug.kata.birthday_greetings;
-import static org.junit.Assert.*;
 
-import org.junit.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 

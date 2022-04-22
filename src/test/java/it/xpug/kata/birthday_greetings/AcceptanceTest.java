@@ -1,10 +1,12 @@
 package it.xpug.kata.birthday_greetings;
 
-import static org.junit.Assert.*;
+import com.dumbster.smtp.SimpleSmtpServer;
+import com.dumbster.smtp.SmtpMessage;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.junit.*;
-
-import com.dumbster.smtp.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class AcceptanceTest {
