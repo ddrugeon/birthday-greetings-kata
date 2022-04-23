@@ -19,7 +19,7 @@ public class MailNotifier implements Notifier {
     }
 
     @Override
-    public void sendMessage(String sender, String subject, String body, String recipient) throws AddressException, MessagingException {
+    public void sendMessage(String sender, String subject, String body, String recipient) throws MessagingException {
 // Create a mail session
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", this.host);

@@ -1,17 +1,12 @@
-package it.xpug.kata.birthday_greetings;
+package it.xpug.kata.birthday_greetings.application;
 
 import it.xpug.kata.birthday_greetings.domain.Employee;
 import it.xpug.kata.birthday_greetings.domain.XDate;
 import it.xpug.kata.birthday_greetings.infrastructure.EmployeeRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.Notifier;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.text.ParseException;
 
