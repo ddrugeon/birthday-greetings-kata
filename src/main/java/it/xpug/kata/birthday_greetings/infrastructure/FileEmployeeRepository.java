@@ -1,7 +1,7 @@
 package it.xpug.kata.birthday_greetings.infrastructure;
 
-import it.xpug.kata.birthday_greetings.domain.Employee;
-import it.xpug.kata.birthday_greetings.domain.XDate;
+import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -26,7 +26,7 @@ public class FileEmployeeRepository implements EmployeeRepository {
             String[] employeeData = str.split(", ");
             var first_name = employeeData[0];
             var last_name = employeeData[1];
-            var date_of_birth = employeeData[2];
+            var date_of_birth = new XDate(employeeData[2]);
             var email = employeeData[3];
 
             var employee = new Employee(last_name, first_name, date_of_birth, email);

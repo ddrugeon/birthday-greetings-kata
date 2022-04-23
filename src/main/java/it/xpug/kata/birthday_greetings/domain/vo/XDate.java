@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings.domain;
+package it.xpug.kata.birthday_greetings.domain.vo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,7 +1,7 @@
 package it.xpug.kata.birthday_greetings.infrastructure;
 
-import it.xpug.kata.birthday_greetings.domain.Employee;
-import it.xpug.kata.birthday_greetings.domain.XDate;
+import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 
 import java.util.List;
 

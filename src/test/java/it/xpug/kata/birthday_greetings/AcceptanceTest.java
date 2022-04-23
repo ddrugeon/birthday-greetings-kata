@@ -3,15 +3,14 @@ package it.xpug.kata.birthday_greetings;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import it.xpug.kata.birthday_greetings.application.BirthdayService;
-import it.xpug.kata.birthday_greetings.domain.XDate;
+import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 import it.xpug.kata.birthday_greetings.infrastructure.FileEmployeeRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.MailNotifier;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AcceptanceTest {
 
@@ -19,13 +18,13 @@ public class AcceptanceTest {
 	private BirthdayService birthdayService;
 	private SimpleSmtpServer mailServer;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
 		birthdayService = new BirthdayService(new FileEmployeeRepository("employee_data.txt"), new MailNotifier("localhost", NONSTANDARD_PORT));
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		mailServer.stop();
 		Thread.sleep(200);
@@ -36,7 +35,7 @@ public class AcceptanceTest {
 
 		birthdayService.sendGreetings(new XDate("2008/10/08"));
 
-		assertEquals("message not sent?", 1, mailServer.getReceivedEmailSize());
+		assertEquals(1, mailServer.getReceivedEmailSize(), "message not sent?");
 		SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmail().next();
 		assertEquals("Happy Birthday, dear John!", message.getBody());
 		assertEquals("Happy Birthday!", message.getHeaderValue("Subject"));
@@ -49,6 +48,6 @@ public class AcceptanceTest {
 	public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
 		birthdayService.sendGreetings(new XDate("2008/01/01"));
 
-		assertEquals("what? messages?", 0, mailServer.getReceivedEmailSize());
+		assertEquals(0, mailServer.getReceivedEmailSize(), "what? messages?");
 	}
 }

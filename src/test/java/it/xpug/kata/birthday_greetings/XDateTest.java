@@ -1,11 +1,9 @@
 package it.xpug.kata.birthday_greetings;
 
-import it.xpug.kata.birthday_greetings.domain.XDate;
-import org.junit.Test;
+import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class XDateTest {
 	@Test
@@ -22,9 +20,10 @@ public class XDateTest {
 		XDate notSameDay = new XDate("1789/01/25");
 		XDate notSameMonth = new XDate("1789/02/25");
 
-		assertTrue("same", date.isSameDay(sameDay));
-		assertFalse("not same day", date.isSameDay(notSameDay));
-		assertFalse("not same month", date.isSameDay(notSameMonth));
+		assertAll("date",
+			() -> assertTrue(date.isSameDay(sameDay)),
+			() -> assertFalse(date.isSameDay(notSameDay)),
+			() -> assertFalse(date.isSameDay(notSameMonth)));
 	}
 
 	@Test
@@ -33,11 +32,13 @@ public class XDateTest {
 		XDate same = new XDate("2000/01/02");
 		XDate different = new XDate("2000/01/04");
 
-		assertFalse(base.equals(null));
-		assertFalse(base.equals(""));
-		assertTrue(base.equals(base));
-		assertTrue(base.equals(same));
-		assertFalse(base.equals(different));
+		assertAll("equality",
+				() -> assertFalse(base.equals(null)),
+				() -> assertFalse(base.equals("")),
+				() -> assertTrue(base.equals(base)),
+				() -> assertTrue(base.equals(same)),
+				() -> assertFalse(base.equals(different))
+		);
 	}
 
 }

@@ -1,32 +1,34 @@
 package it.xpug.kata.birthday_greetings;
 
-import it.xpug.kata.birthday_greetings.domain.Employee;
-import it.xpug.kata.birthday_greetings.domain.XDate;
-import org.junit.Test;
+import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeTest {
-
 	@Test
 	public void testBirthday() throws Exception {
-		Employee employee = new Employee("foo", "bar", "1990/01/31", "a@b.c");
-		assertFalse("not his birthday", employee.isBirthday(new XDate("2008/01/30")));
-		assertTrue("his birthday", employee.isBirthday(new XDate("2008/01/31")));
+		Employee employee = new Employee("foo", "bar", new XDate("1990/01/31"), "a@b.c");
+
+		assertAll("birthday",
+				() -> assertFalse(employee.isBirthday(new XDate("2008/01/30")), "not his birthday"),
+				() -> assertTrue(employee.isBirthday(new XDate("2008/01/31")), "his birthday")
+		);
 	}
 
 	@Test
 	public void equality() throws Exception {
-		Employee base = new Employee("First", "Last", "1999/09/01", "first@last.com");
-		Employee same = new Employee("First", "Last", "1999/09/01", "first@last.com");
-		Employee different = new Employee("First", "Last", "1999/09/01", "boom@boom.com");
+		Employee base = new Employee("First", "Last", new XDate("1999/09/01"), "first@last.com");
+		Employee same = new Employee("First", "Last", new XDate("1999/09/01"), "first@last.com");
+		Employee different = new Employee("First", "Last", new XDate("1999/09/01"), "boom@boom.com");
 
-		assertFalse(base.equals(null));
-		assertFalse(base.equals(""));
-		assertTrue(base.equals(same));
-		assertFalse(base.equals(different));
+		assertAll("equality",
+			() -> assertFalse(base.equals(null)),
+			() -> assertFalse(base.equals("")),
+			() -> assertTrue(base.equals(base)),
+			() -> assertTrue(base.equals(same)),
+			() -> assertFalse(base.equals(different))
+		);
 	}
 }
