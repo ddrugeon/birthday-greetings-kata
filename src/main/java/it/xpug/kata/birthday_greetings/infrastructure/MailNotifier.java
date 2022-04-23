@@ -1,5 +1,7 @@
 package it.xpug.kata.birthday_greetings.infrastructure;
 
+import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -19,21 +21,26 @@ public class MailNotifier implements Notifier {
     }
 
     @Override
-    public void sendMessage(String sender, String subject, String body, String recipient) throws MessagingException {
-// Create a mail session
+    public void sendMessage(String sender, String subject, String body, String recipient) throws NotificationException {
+        // Create a mail session
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", this.host);
         props.put("mail.smtp.port", "" + this.port);
         Session session = Session.getInstance(props, null);
 
-// Construct the message
+        // Construct the message
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(sender));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        msg.setSubject(subject);
-        msg.setText(body);
+        try {
+            msg.setFrom(new InternetAddress(sender));
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            msg.setSubject(subject);
+            msg.setText(body);
 
-// Send the message
-        Transport.send(msg);
+            // Send the message
+            Transport.send(msg);
+        } catch (MessagingException e) {
+            throw new NotificationException(e);
+        }
+
     }
 }

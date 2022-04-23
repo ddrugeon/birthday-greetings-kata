@@ -4,6 +4,7 @@ import it.xpug.kata.birthday_greetings.domain.Employee;
 import it.xpug.kata.birthday_greetings.domain.XDate;
 import it.xpug.kata.birthday_greetings.infrastructure.EmployeeRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.Notifier;
+import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -20,7 +21,7 @@ public class BirthdayService {
 		this.notifier = notifier;
 	}
 
-	public void sendGreetings(XDate xDate) throws IOException, ParseException, AddressException, MessagingException {
+	public void sendGreetings(XDate xDate) throws NotificationException {
 		var employees = employeeRepository.filterEmployeesWithBirthdayAt(xDate);
 
 		for (Employee e : employees) {
