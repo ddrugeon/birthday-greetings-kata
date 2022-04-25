@@ -2,6 +2,7 @@ package it.xpug.kata.birthday_greetings;
 
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
+
 import it.xpug.kata.birthday_greetings.application.BirthdayService;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 import it.xpug.kata.birthday_greetings.infrastructure.FileEmployeeRepository;
@@ -9,6 +10,8 @@ import it.xpug.kata.birthday_greetings.infrastructure.MailNotifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,19 +38,21 @@ public class AcceptanceTest {
 
 		birthdayService.sendGreetings(new XDate("2008/10/08"));
 
-		assertEquals(1, mailServer.getReceivedEmailSize(), "message not sent?");
-		SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmail().next();
+		assertEquals(1, mailServer.getReceivedEmails().size(), "message not sent?");
+
+		SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmails().get(0);
+
 		assertEquals("Happy Birthday, dear John!", message.getBody());
 		assertEquals("Happy Birthday!", message.getHeaderValue("Subject"));
-		String[] recipients = message.getHeaderValues("To");
-		assertEquals(1, recipients.length);
-		assertEquals("john.doe@foobar.com", recipients[0].toString());
+		List<String> recipients = message.getHeaderValues("To");
+		assertEquals(1, recipients.size());
+		assertEquals("john.doe@foobar.com", recipients.get(0).toString());
 	}
 
 	@Test
 	public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
 		birthdayService.sendGreetings(new XDate("2008/01/01"));
 
-		assertEquals(0, mailServer.getReceivedEmailSize(), "what? messages?");
+		assertEquals(0, mailServer.getReceivedEmails().size(), "what? messages?");
 	}
 }
