@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -32,19 +34,20 @@ public class AcceptanceTest {
 
 		birthdayService.sendGreetings("employee_data.txt", new XDate("2008/10/08"), "localhost", NONSTANDARD_PORT);
 
-		assertEquals("message not sent?", 1, mailServer.getReceivedEmailSize());
-		SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmail().next();
+		assertEquals("message not sent?", 1, mailServer.getReceivedEmails().size());
+
+		SmtpMessage message = (SmtpMessage) mailServer.getReceivedEmails().get(0);
 		assertEquals("Happy Birthday, dear John!", message.getBody());
 		assertEquals("Happy Birthday!", message.getHeaderValue("Subject"));
-		String[] recipients = message.getHeaderValues("To");
-		assertEquals(1, recipients.length);
-		assertEquals("john.doe@foobar.com", recipients[0].toString());
+		List<String> recipients = message.getHeaderValues("To");
+		assertEquals(1, recipients.size());
+		assertEquals("john.doe@foobar.com", recipients.get(0).toString());
 	}
 
 	@Test
 	public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
 		birthdayService.sendGreetings("employee_data.txt", new XDate("2008/01/01"), "localhost", NONSTANDARD_PORT);
 
-		assertEquals("what? messages?", 0, mailServer.getReceivedEmailSize());
+		assertEquals("what? messages?", 0, mailServer.getReceivedEmails().size());
 	}
 }
