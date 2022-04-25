@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings.infrastructure;
+package it.xpug.kata.birthday_greetings.infrastructure.spi;
 
 import it.xpug.kata.birthday_greetings.domain.entities.Employee;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;

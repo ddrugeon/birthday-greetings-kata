@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings.infrastructure;
+package it.xpug.kata.birthday_greetings.infrastructure.spi;
 
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 

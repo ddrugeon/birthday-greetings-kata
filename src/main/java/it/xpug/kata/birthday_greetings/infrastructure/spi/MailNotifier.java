@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings.infrastructure;
+package it.xpug.kata.birthday_greetings.infrastructure.spi;
 
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 
@@ -6,7 +6,6 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 

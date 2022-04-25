@@ -2,8 +2,8 @@ package it.xpug.kata.birthday_greetings.application;
 
 import it.xpug.kata.birthday_greetings.domain.entities.Employee;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
-import it.xpug.kata.birthday_greetings.infrastructure.EmployeeRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.Notifier;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeRepository;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.Notifier;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 
 public class BirthdayService {

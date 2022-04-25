@@ -5,8 +5,8 @@ import com.dumbster.smtp.SmtpMessage;
 
 import it.xpug.kata.birthday_greetings.application.BirthdayService;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
-import it.xpug.kata.birthday_greetings.infrastructure.FileEmployeeRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.MailNotifier;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.FileEmployeeRepository;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.MailNotifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
