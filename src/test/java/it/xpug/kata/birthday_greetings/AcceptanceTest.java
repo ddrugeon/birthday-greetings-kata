@@ -11,6 +11,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +26,9 @@ public class AcceptanceTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
-		birthdayService = new BirthdayService(new FileEmployeeRepository("employee_data.txt"), new MailNotifier("localhost", NONSTANDARD_PORT));
+		URL resource = Main.class.getResource("/employee_data.txt");
+		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
+		birthdayService = new BirthdayService(new FileEmployeeRepository(filename), new MailNotifier("localhost", NONSTANDARD_PORT));
 	}
 
 	@AfterEach
