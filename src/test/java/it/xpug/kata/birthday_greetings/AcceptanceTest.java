@@ -5,6 +5,7 @@ import com.dumbster.smtp.SmtpMessage;
 
 import it.xpug.kata.birthday_greetings.application.BirthdayService;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayCLI;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.FileEmployeeRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.MailNotifier;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +27,7 @@ public class AcceptanceTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
-		URL resource = Main.class.getResource("/employee_data.txt");
+		URL resource = BirthdayCLI.class.getResource("/employee_data.txt");
 		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
 		birthdayService = new BirthdayService(new FileEmployeeRepository(filename), new MailNotifier("localhost", NONSTANDARD_PORT));
 	}

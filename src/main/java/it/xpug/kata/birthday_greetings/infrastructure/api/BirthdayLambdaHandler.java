@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings;
+package it.xpug.kata.birthday_greetings.infrastructure.api;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
