@@ -20,8 +20,8 @@ import java.util.List;
 /**
  * Handler for requests to Lambda function.
  */
-public class BirthdayLambdaHandler {
-    private final static Logger log = LogManager.getLogger(BirthdayLambdaHandler.class);
+public class BirthdayLambdaAdapter {
+    private final static Logger log = LogManager.getLogger(BirthdayLambdaAdapter.class);
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Logging(logEvent = true, samplingRate = 0.7)
