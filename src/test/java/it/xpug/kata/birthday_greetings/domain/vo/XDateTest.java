@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings;
+package it.xpug.kata.birthday_greetings.domain.vo;
 
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 import org.junit.jupiter.api.Test;
