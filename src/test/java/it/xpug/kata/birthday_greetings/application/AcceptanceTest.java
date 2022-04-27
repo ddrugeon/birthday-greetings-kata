@@ -2,10 +2,6 @@ package it.xpug.kata.birthday_greetings.application;
 
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
-
-import it.xpug.kata.birthday_greetings.application.BirthdayGreetingService;
-import it.xpug.kata.birthday_greetings.application.BirthdayGreetingServiceImpl;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayConsoleAdapter;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeCSVFileRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.MailNotifier;
@@ -20,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AcceptanceTest {
 
@@ -62,5 +59,20 @@ public class AcceptanceTest {
 		birthdayService.sendGreetings("sender@here.com", LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		assertEquals(0, mailServer.getReceivedEmails().size(), "what? messages?");
+	}
+
+	@Test
+	public void returnNonEmptyList_whenItsSomebodysBirthday() {
+		var employees = birthdayService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		assertNotNull(employees);
+		assertEquals(1, employees.size());
+
+	}
+
+	@Test
+	public void returnEmptyList_whenNobodysBirthday() {
+		var employees = birthdayService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		assertNotNull(employees);
+		assertEquals(0, employees.size());
 	}
 }
