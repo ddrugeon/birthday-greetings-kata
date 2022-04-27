@@ -3,10 +3,11 @@ package it.xpug.kata.birthday_greetings;
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 
-import it.xpug.kata.birthday_greetings.application.BirthdayService;
+import it.xpug.kata.birthday_greetings.application.BirthdayGreetingService;
+import it.xpug.kata.birthday_greetings.application.BirthdayGreetingServiceImpl;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
-import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayCLI;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.FileEmployeeRepository;
+import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayConsoleAdapter;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeCSVFileRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.MailNotifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,15 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AcceptanceTest {
 
 	private static final int NONSTANDARD_PORT = 9999;
-	private BirthdayService birthdayService;
+	private BirthdayGreetingService birthdayService;
 	private SimpleSmtpServer mailServer;
 
 	@BeforeEach
 	public void setUp() throws Exception {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
-		URL resource = BirthdayCLI.class.getResource("/employee_data.txt");
+		URL resource = BirthdayConsoleAdapter.class.getResource("/employee_data.txt");
 		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
-		birthdayService = new BirthdayService(new FileEmployeeRepository(filename), new MailNotifier("localhost", NONSTANDARD_PORT));
+		birthdayService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename), new MailNotifier("localhost", NONSTANDARD_PORT));
 	}
 
 	@AfterEach
@@ -41,7 +44,7 @@ public class AcceptanceTest {
 	@Test
 	public void willSendGreetings_whenItsSomebodysBirthday() throws Exception {
 
-		birthdayService.sendGreetings(new XDate("2008/10/08"));
+		birthdayService.sendGreetings("sender@here.com", LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		assertEquals(1, mailServer.getReceivedEmails().size(), "message not sent?");
 
@@ -56,7 +59,7 @@ public class AcceptanceTest {
 
 	@Test
 	public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
-		birthdayService.sendGreetings(new XDate("2008/01/01"));
+		birthdayService.sendGreetings("sender@here.com", LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		assertEquals(0, mailServer.getReceivedEmails().size(), "what? messages?");
 	}

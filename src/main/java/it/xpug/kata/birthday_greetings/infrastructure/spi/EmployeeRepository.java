@@ -6,5 +6,5 @@ import it.xpug.kata.birthday_greetings.domain.vo.XDate;
 import java.util.List;
 
 public interface EmployeeRepository {
-    List<Employee> filterEmployeesWithBirthdayAt(XDate date);
+    List<Employee> findEmployeesWithBirthdayAt(XDate date);
 }

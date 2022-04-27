@@ -6,24 +6,24 @@ import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeRepository;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.Notifier;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 
-public class BirthdayService {
+import java.time.LocalDate;
+
+public class BirthdayGreetingServiceImpl implements BirthdayGreetingService {
 
 	private EmployeeRepository employeeRepository;
 	private Notifier notifier;
 
-	public BirthdayService(EmployeeRepository employeeRepository, Notifier notifier) {
+	public BirthdayGreetingServiceImpl(EmployeeRepository employeeRepository, Notifier notifier) {
 		this.employeeRepository = employeeRepository;
 		this.notifier = notifier;
 	}
 
-	public void sendGreetings(XDate xDate) throws NotificationException {
-		var employees = employeeRepository.filterEmployeesWithBirthdayAt(xDate);
+	@Override
+	public void sendGreetings(String sender, LocalDate date) throws NotificationException {
+		var employees = employeeRepository.findEmployeesWithBirthdayAt(new XDate(date));
 
 		for (Employee e : employees) {
-			String recipient = e.email();
-			String body = "Happy Birthday, dear %NAME%!".replace("%NAME%", e.firstName());
-			String subject = "Happy Birthday!";
-			notifier.sendMessage("sender@here.com", subject, body, recipient);
+			notifier.sendMessage(sender, e);
 		}
 	}
 }

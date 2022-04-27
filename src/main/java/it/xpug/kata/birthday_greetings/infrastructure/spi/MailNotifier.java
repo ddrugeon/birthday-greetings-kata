@@ -1,13 +1,19 @@
 package it.xpug.kata.birthday_greetings.infrastructure.spi;
 
+import it.xpug.kata.birthday_greetings.domain.entities.Employee;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeCSVModel;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeMailModel;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MailNotifier implements Notifier {
 
@@ -20,7 +26,7 @@ public class MailNotifier implements Notifier {
     }
 
     @Override
-    public void sendMessage(String sender, String subject, String body, String recipient) throws NotificationException {
+    public void sendMessage(String sender, Employee employee) throws NotificationException {
         // Create a mail session
         java.util.Properties props = new java.util.Properties();
         props.put("mail.smtp.host", this.host);
@@ -28,18 +34,18 @@ public class MailNotifier implements Notifier {
         Session session = Session.getInstance(props, null);
 
         // Construct the message
-        Message msg = new MimeMessage(session);
         try {
-            msg.setFrom(new InternetAddress(sender));
-            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            msg.setSubject(subject);
-            msg.setText(body);
-
-            // Send the message
+            Message msg = EmployeeMailModel.fromDomain(employee, sender, session);
             Transport.send(msg);
         } catch (MessagingException e) {
             throw new NotificationException(e);
         }
+    }
 
+    @Override
+    public void sendMessage(String sender, List<Employee> employees) throws NotificationException {
+        for (Employee employee : employees) {
+            sendMessage(sender, employee);
+        }
     }
 }
