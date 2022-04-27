@@ -7,6 +7,8 @@ import it.xpug.kata.birthday_greetings.infrastructure.spi.Notifier;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BirthdayGreetingServiceImpl implements BirthdayGreetingService {
 
@@ -25,5 +27,10 @@ public class BirthdayGreetingServiceImpl implements BirthdayGreetingService {
 		for (Employee e : employees) {
 			notifier.sendMessage(sender, e);
 		}
+	}
+
+	@Override
+	public List<Employee> getListEmployeesWithBirthdayAt(LocalDate date) {
+		return employeeRepository.findEmployeesWithBirthdayAt(new XDate(date));
 	}
 }

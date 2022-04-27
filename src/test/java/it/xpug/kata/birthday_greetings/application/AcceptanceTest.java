@@ -1,4 +1,4 @@
-package it.xpug.kata.birthday_greetings;
+package it.xpug.kata.birthday_greetings.application;
 
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;

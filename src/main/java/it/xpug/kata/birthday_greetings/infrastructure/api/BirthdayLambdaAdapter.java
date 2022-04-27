@@ -3,8 +3,10 @@ package it.xpug.kata.birthday_greetings.infrastructure.api;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.xpug.kata.birthday_greetings.application.BirthdayGreetingService;
 import it.xpug.kata.birthday_greetings.domain.entities.Employee;
 import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import it.xpug.kata.birthday_greetings.infrastructure.api.models.EmployeeJSONModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.amazon.lambda.powertools.logging.Logging;
@@ -22,7 +24,7 @@ import java.util.List;
  */
 public class BirthdayLambdaAdapter {
     private final static Logger log = LogManager.getLogger(BirthdayLambdaAdapter.class);
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private BirthdayGreetingService birthdayGreetingService;
 
     @Logging(logEvent = true, samplingRate = 0.7)
     public String handleRequest(String input, Context context) {
@@ -54,6 +56,6 @@ public class BirthdayLambdaAdapter {
             throw new RuntimeException(e);
         }
 
-        return gson.toJson(employees);
+        return EmployeeJSONModel.fromDomain(employees);
     }
 }
