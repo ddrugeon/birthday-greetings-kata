@@ -9,7 +9,7 @@ import it.xpug.kata.birthday_greetings.infrastructure.spi.Notifier;
 import java.time.LocalDate;
 import java.util.List;
 
-public class BirthdayGreetingServiceImpl implements BirthdayGreetingService {
+public class BirthdayGreetingServiceImpl implements BirthdayGreetingNotifierService, BirthdayGreetingRetrieverService {
 
 	private EmployeeRepository employeeRepository;
 	private Notifier notifier;
@@ -17,6 +17,10 @@ public class BirthdayGreetingServiceImpl implements BirthdayGreetingService {
 	public BirthdayGreetingServiceImpl(EmployeeRepository employeeRepository, Notifier notifier) {
 		this.employeeRepository = employeeRepository;
 		this.notifier = notifier;
+	}
+
+	public BirthdayGreetingServiceImpl(EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
 	}
 
 	@Override

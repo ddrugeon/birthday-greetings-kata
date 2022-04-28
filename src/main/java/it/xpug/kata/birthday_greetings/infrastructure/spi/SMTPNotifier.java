@@ -2,25 +2,20 @@ package it.xpug.kata.birthday_greetings.infrastructure.spi;
 
 import it.xpug.kata.birthday_greetings.domain.entities.Employee;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeCSVModel;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeMailModel;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class MailNotifier implements Notifier {
+public class SMTPNotifier implements Notifier {
 
     private final String host;
     private final int port;
 
-    public MailNotifier(String smtpHost, int smtpPort) {
+    public SMTPNotifier(String smtpHost, int smtpPort) {
         this.host = smtpHost;
         this.port = smtpPort;
     }

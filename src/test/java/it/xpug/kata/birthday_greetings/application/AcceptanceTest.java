@@ -4,7 +4,7 @@ import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
 import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayConsoleAdapter;
 import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeCSVFileRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.MailNotifier;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.SMTPNotifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AcceptanceTest {
 
 	private static final int NONSTANDARD_PORT = 9999;
-	private BirthdayGreetingService birthdayService;
+	private BirthdayGreetingNotifierService birthdayGreetingNotifierService;
+
+	private BirthdayGreetingRetrieverService birthdayGreetingRetrieverService;
+
 	private SimpleSmtpServer mailServer;
 
 	@BeforeEach
@@ -29,7 +32,8 @@ public class AcceptanceTest {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
 		URL resource = BirthdayConsoleAdapter.class.getResource("/employee_data.txt");
 		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
-		birthdayService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename), new MailNotifier("localhost", NONSTANDARD_PORT));
+		birthdayGreetingNotifierService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename), new SMTPNotifier("localhost", NONSTANDARD_PORT));
+		birthdayGreetingRetrieverService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename));
 	}
 
 	@AfterEach
@@ -41,7 +45,7 @@ public class AcceptanceTest {
 	@Test
 	public void willSendGreetings_whenItsSomebodysBirthday() throws Exception {
 
-		birthdayService.sendGreetings("sender@here.com", LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		birthdayGreetingNotifierService.sendGreetings("sender@here.com", LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		assertEquals(1, mailServer.getReceivedEmails().size(), "message not sent?");
 
@@ -56,14 +60,14 @@ public class AcceptanceTest {
 
 	@Test
 	public void willNotSendEmailsWhenNobodysBirthday() throws Exception {
-		birthdayService.sendGreetings("sender@here.com", LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		birthdayGreetingNotifierService.sendGreetings("sender@here.com", LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
 		assertEquals(0, mailServer.getReceivedEmails().size(), "what? messages?");
 	}
 
 	@Test
 	public void returnNonEmptyList_whenItsSomebodysBirthday() {
-		var employees = birthdayService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		var employees = birthdayGreetingRetrieverService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/10/08", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 		assertNotNull(employees);
 		assertEquals(1, employees.size());
 
@@ -71,7 +75,7 @@ public class AcceptanceTest {
 
 	@Test
 	public void returnEmptyList_whenNobodysBirthday() {
-		var employees = birthdayService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+		var employees = birthdayGreetingRetrieverService.getListEmployeesWithBirthdayAt(LocalDate.parse("2008/01/01", DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 		assertNotNull(employees);
 		assertEquals(0, employees.size());
 	}

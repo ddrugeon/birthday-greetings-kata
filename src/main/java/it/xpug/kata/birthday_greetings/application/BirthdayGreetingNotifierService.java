@@ -6,8 +6,6 @@ import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationExc
 import java.time.LocalDate;
 import java.util.List;
 
-public interface BirthdayGreetingService {
+public interface BirthdayGreetingNotifierService {
     void sendGreetings(String sender, LocalDate date) throws NotificationException;
-
-    List<Employee> getListEmployeesWithBirthdayAt(LocalDate date);
 }
