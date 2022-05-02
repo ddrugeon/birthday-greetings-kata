@@ -1,17 +1,17 @@
-package it.xpug.kata.birthday_greetings.infrastructure.spi;
+package it.xpug.kata.birthday_greetings.infrastructure.spi.notification;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.application.ports.out.NotifierPort;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeSNSModel;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.notification.dto.EmployeeSNSModel;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SNSNotifier implements Notifier {
+public class SNSNotifier implements NotifierPort {
 
     private final SnsClient snsClient;
     private final String topicARN;

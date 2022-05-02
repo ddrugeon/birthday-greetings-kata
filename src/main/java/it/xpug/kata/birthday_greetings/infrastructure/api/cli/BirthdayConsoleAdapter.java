@@ -1,12 +1,12 @@
-package it.xpug.kata.birthday_greetings.infrastructure.api;
+package it.xpug.kata.birthday_greetings.infrastructure.api.cli;
 
-import it.xpug.kata.birthday_greetings.application.BirthdayGreetingNotifierService;
-import it.xpug.kata.birthday_greetings.application.BirthdayGreetingServiceImpl;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeCSVFileRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.SMTPNotifier;
+import it.xpug.kata.birthday_greetings.application.ports.in.BirthdayGreetingNotifierPort;
+import it.xpug.kata.birthday_greetings.application.ports.BirthdayGreetingService;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.persistance.EmployeeCSVFileRepository;
+import it.xpug.kata.birthday_greetings.application.ports.out.EmployeeRepositoryPort;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.notification.SMTPNotifier;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.Notifier;
+import it.xpug.kata.birthday_greetings.application.ports.out.NotifierPort;
 
 import javax.mail.internet.AddressException;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import java.text.ParseException;
 import java.time.LocalDate;
 
 public class BirthdayConsoleAdapter {
-	private BirthdayGreetingNotifierService birthdayGreetingService;
+	private BirthdayGreetingNotifierPort birthdayGreetingService;
 
-	public BirthdayConsoleAdapter(BirthdayGreetingNotifierService service) {
+	public BirthdayConsoleAdapter(BirthdayGreetingNotifierPort service) {
 		this.birthdayGreetingService = service;
 	}
 
@@ -37,10 +37,10 @@ public class BirthdayConsoleAdapter {
 		URL resource = BirthdayConsoleAdapter.class.getResource("/employee_data.txt");
 		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
 
-		EmployeeRepository repository = new EmployeeCSVFileRepository(filename);
-		Notifier notifier = new SMTPNotifier("localhost", 25);
+		EmployeeRepositoryPort repository = new EmployeeCSVFileRepository(filename);
+		NotifierPort notifier = new SMTPNotifier("localhost", 25);
 
-		BirthdayGreetingNotifierService service = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename),
+		BirthdayGreetingNotifierPort service = new BirthdayGreetingService(new EmployeeCSVFileRepository(filename),
 				new SMTPNotifier("localhost", 25));
 
 		new BirthdayConsoleAdapter(service).sendGreetings("sender@here.com");

@@ -1,8 +1,9 @@
-package it.xpug.kata.birthday_greetings.infrastructure.spi;
+package it.xpug.kata.birthday_greetings.infrastructure.spi.persistance;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeCSVModel;
+import it.xpug.kata.birthday_greetings.application.ports.out.EmployeeRepositoryPort;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.XDate;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.persistance.dto.EmployeeCSVModel;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class EmployeeCSVFileRepository implements EmployeeRepository {
+public class EmployeeCSVFileRepository implements EmployeeRepositoryPort {
     private List<Employee> employees;
 
     public EmployeeCSVFileRepository(String filename) throws IOException, ParseException {

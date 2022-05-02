@@ -1,6 +1,4 @@
-package it.xpug.kata.birthday_greetings.domain.entities;
-
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+package it.xpug.kata.birthday_greetings.application.domain;
 
 import java.util.Objects;
 

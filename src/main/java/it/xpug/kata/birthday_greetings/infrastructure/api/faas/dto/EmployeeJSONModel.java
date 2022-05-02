@@ -1,11 +1,10 @@
-package it.xpug.kata.birthday_greetings.infrastructure.api.models;
+package it.xpug.kata.birthday_greetings.infrastructure.api.faas.dto;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.XDate;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class EmployeeJSONModel {

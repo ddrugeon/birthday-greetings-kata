@@ -1,7 +1,7 @@
 package it.xpug.kata.birthday_greetings.domain.entities;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.XDate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

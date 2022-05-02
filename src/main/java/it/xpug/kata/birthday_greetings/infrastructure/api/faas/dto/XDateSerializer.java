@@ -1,13 +1,12 @@
-package it.xpug.kata.birthday_greetings.infrastructure.api.models;
+package it.xpug.kata.birthday_greetings.infrastructure.api.faas.dto;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
+import it.xpug.kata.birthday_greetings.application.domain.XDate;
 
 import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 class XDateSerializer implements JsonSerializer<XDate> {

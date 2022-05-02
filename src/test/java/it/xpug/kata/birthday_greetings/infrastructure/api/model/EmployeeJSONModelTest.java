@@ -1,8 +1,8 @@
 package it.xpug.kata.birthday_greetings.infrastructure.api.model;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
-import it.xpug.kata.birthday_greetings.domain.vo.XDate;
-import it.xpug.kata.birthday_greetings.infrastructure.api.models.EmployeeJSONModel;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.XDate;
+import it.xpug.kata.birthday_greetings.infrastructure.api.faas.dto.EmployeeJSONModel;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

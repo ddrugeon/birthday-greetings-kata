@@ -1,6 +1,6 @@
-package it.xpug.kata.birthday_greetings.infrastructure.spi.models;
+package it.xpug.kata.birthday_greetings.infrastructure.spi.notification.dto;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
 
 public record EmployeeSNSModel(String subject, String message) {
     public static EmployeeSNSModel fromDomain(Employee employee) {

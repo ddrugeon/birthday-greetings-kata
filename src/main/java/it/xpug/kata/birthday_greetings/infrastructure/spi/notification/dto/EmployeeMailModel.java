@@ -1,11 +1,10 @@
-package it.xpug.kata.birthday_greetings.infrastructure.spi.models;
+package it.xpug.kata.birthday_greetings.infrastructure.spi.notification.dto;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 

@@ -2,9 +2,12 @@ package it.xpug.kata.birthday_greetings.application;
 
 import com.dumbster.smtp.SimpleSmtpServer;
 import com.dumbster.smtp.SmtpMessage;
-import it.xpug.kata.birthday_greetings.infrastructure.api.BirthdayConsoleAdapter;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.EmployeeCSVFileRepository;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.SMTPNotifier;
+import it.xpug.kata.birthday_greetings.application.ports.BirthdayGreetingService;
+import it.xpug.kata.birthday_greetings.application.ports.in.BirthdayGreetingNotifierPort;
+import it.xpug.kata.birthday_greetings.application.ports.in.BirthdayGreetingRetrieverPort;
+import it.xpug.kata.birthday_greetings.infrastructure.api.cli.BirthdayConsoleAdapter;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.persistance.EmployeeCSVFileRepository;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.notification.SMTPNotifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AcceptanceTest {
 
 	private static final int NONSTANDARD_PORT = 9999;
-	private BirthdayGreetingNotifierService birthdayGreetingNotifierService;
+	private BirthdayGreetingNotifierPort birthdayGreetingNotifierService;
 
-	private BirthdayGreetingRetrieverService birthdayGreetingRetrieverService;
+	private BirthdayGreetingRetrieverPort birthdayGreetingRetrieverService;
 
 	private SimpleSmtpServer mailServer;
 
@@ -32,8 +35,8 @@ public class AcceptanceTest {
 		mailServer = SimpleSmtpServer.start(NONSTANDARD_PORT);
 		URL resource = BirthdayConsoleAdapter.class.getResource("/employee_data.txt");
 		String filename = Paths.get(resource.toURI()).toFile().getAbsolutePath();
-		birthdayGreetingNotifierService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename), new SMTPNotifier("localhost", NONSTANDARD_PORT));
-		birthdayGreetingRetrieverService = new BirthdayGreetingServiceImpl(new EmployeeCSVFileRepository(filename));
+		birthdayGreetingNotifierService = new BirthdayGreetingService(new EmployeeCSVFileRepository(filename), new SMTPNotifier("localhost", NONSTANDARD_PORT));
+		birthdayGreetingRetrieverService = new BirthdayGreetingService(new EmployeeCSVFileRepository(filename));
 	}
 
 	@AfterEach

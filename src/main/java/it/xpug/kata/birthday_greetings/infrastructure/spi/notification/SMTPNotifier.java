@@ -1,8 +1,9 @@
-package it.xpug.kata.birthday_greetings.infrastructure.spi;
+package it.xpug.kata.birthday_greetings.infrastructure.spi.notification;
 
-import it.xpug.kata.birthday_greetings.domain.entities.Employee;
+import it.xpug.kata.birthday_greetings.application.ports.out.NotifierPort;
+import it.xpug.kata.birthday_greetings.application.domain.Employee;
 import it.xpug.kata.birthday_greetings.infrastructure.exceptions.NotificationException;
-import it.xpug.kata.birthday_greetings.infrastructure.spi.models.EmployeeMailModel;
+import it.xpug.kata.birthday_greetings.infrastructure.spi.notification.dto.EmployeeMailModel;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -10,7 +11,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import java.util.List;
 
-public class SMTPNotifier implements Notifier {
+public class SMTPNotifier implements NotifierPort {
 
     private final String host;
     private final int port;
